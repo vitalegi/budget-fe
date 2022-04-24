@@ -58,5 +58,8 @@ export default Vue.extend({
       return `${values[2]}/${values[1]}/${values[0]}`;
     },
   },
+  mounted(): void {
+    document.title = "Spese Coinquilini";
+  },
 });
 </script>
