@@ -59,6 +59,7 @@ import DateUtil from "@/utils/DateUtil";
 import LocalStorageUtil from "@/utils/LocalStorageUtil";
 import ExpenseService from "@/expenses/ExpenseService";
 import Expense from "@/expenses/models/Expense";
+import NumberUtil from "@/utils/NumberUtil";
 
 export default Vue.extend({
   name: "CreateOrUpdateExpense",
@@ -105,19 +106,32 @@ export default Vue.extend({
       expense.date = this.date;
       expense.author = this.author;
       expense.category = this.category;
-      expense.amount = this.amount;
+      expense.amount = NumberUtil.asNumber(this.amount);
       expense.description = this.description;
 
       this.$emit("change", expense);
     },
+    initValues(expense: Expense): void {
+      this.date = expense.date;
+      this.author = expense.author;
+      this.category = expense.category;
+      this.description = expense.description;
+      this.amount = expense.amount;
+    },
+  },
+  watch: {
+    defaultValue: {
+      handler(newValue, oldValue) {
+        if (newValue) {
+          this.initValues(newValue);
+        }
+      },
+      deep: true,
+    },
   },
   mounted(): void {
     if (this.defaultValue) {
-      this.date = this.defaultValue.date;
-      this.author = this.defaultValue.author;
-      this.category = this.defaultValue.category;
-      this.description = this.defaultValue.description;
-      this.amount = this.defaultValue.amount;
+      this.initValues(this.defaultValue);
     }
   },
 });

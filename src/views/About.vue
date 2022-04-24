@@ -1,5 +1,6 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    Source code available at
+    <a href="https://github.com/vitalegi/budget-fe">vitalegi@budget-fe</a>.
   </div>
 </template>

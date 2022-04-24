@@ -1,3 +1,5 @@
+import NumberUtil from "@/utils/NumberUtil";
+
 export default class Expense {
   date = "";
   author = "";
@@ -7,7 +9,7 @@ export default class Expense {
 
   public static fromJson(json: any): Expense {
     const out = new Expense();
-    out.amount = json.amount;
+    out.amount = NumberUtil.asNumber(json.amount);
     out.date = json.date;
     out.author = json.author;
     out.category = json.category;
