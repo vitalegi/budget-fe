@@ -18,9 +18,7 @@
       :search="search"
     >
       <template v-slot:item.actions="{ item }">
-        <v-icon :disabled="true" @click="updateExpense(item)" class="mr-2">
-          mdi-pencil
-        </v-icon>
+        <v-icon @click="updateExpense(item)" class="mr-2"> mdi-pencil </v-icon>
         <v-icon @click="deleteExpense(item)"> mdi-delete </v-icon>
       </template>
     </v-data-table>
@@ -60,7 +58,12 @@ export default Vue.extend({
       this.$store.commit("deleteExpense", expense);
     },
     updateExpense(expense: Expense): void {
-      this.$store.commit("updateExpense", expense);
+      this.$router.push({
+        name: "UpdateExpenseView",
+        query: {
+          expense: JSON.stringify(expense),
+        },
+      });
     },
   },
 });

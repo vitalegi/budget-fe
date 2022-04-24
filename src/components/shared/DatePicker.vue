@@ -1,10 +1,8 @@
 <template>
   <v-dialog v-model="dialog" width="330">
     <template v-slot:activator="{ on, attrs }">
-      <v-text-field v-model="date">
-        <v-icon slot="prepend" v-bind="attrs" v-on="on"> mdi-calendar </v-icon>
-        <v-icon slot="append" @click="change('')"> mdi-close </v-icon>
-      </v-text-field>
+      <v-icon v-bind="attrs" v-on="on"> mdi-calendar </v-icon>
+      {{ value }}
     </template>
 
     <v-card>
@@ -22,7 +20,7 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" text @click="dialog = false"> Cancel </v-btn>
+        <v-btn color="primary" text @click="cancel()"> Cancel </v-btn>
         <v-btn color="primary" text @click="change(tmpDate)"> OK </v-btn>
       </v-card-actions>
     </v-card>
@@ -31,7 +29,6 @@
 
 <script lang="ts">
 import Vue from "vue";
-import DateUtil from "@/utils/DateUtil";
 
 export default Vue.extend({
   name: "DatePicker",
@@ -39,29 +36,22 @@ export default Vue.extend({
     value: String,
   },
   data: () => ({
-    date: "",
     tmpDate: "",
     dialog: false,
   }),
   methods: {
     cancel(): void {
-      this.tmpDate = this.date;
+      this.tmpDate = this.value;
       this.dialog = false;
     },
     change(newDate: string): void {
-      this.date = newDate;
-      this.$emit("change", this.date);
-      this.tmpDate = this.date;
+      this.tmpDate = newDate;
+      this.$emit("change", newDate);
       this.dialog = false;
     },
     changeTmpDate(value: string): void {
       this.tmpDate = value;
     },
-  },
-  mounted(): void {
-    if (this.value) {
-      this.date = this.value;
-    }
   },
 });
 </script>

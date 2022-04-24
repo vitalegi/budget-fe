@@ -18,15 +18,20 @@ export default new Vuex.Store({
       LocalStorageUtil.setItem("expenses", JSON.stringify(state.expenses));
     },
     deleteExpense: (state: any, expense: Expense) => {
-      state.expenses = (state.expenses as Expense[]).filter(
-        (e: Expense) => !e.equals(expense)
-      );
+      const expenses = state.expenses as Expense[];
+      const index = expenses.findIndex((e) => e.equals(expense));
+      if (index !== -1) {
+        expenses.splice(index, 1);
+      }
       LocalStorageUtil.setItem("expenses", JSON.stringify(state.expenses));
     },
-    updateExpense: (state: any, expense: Expense) => {
-      const newExpense = Expense.fromJson(JSON.parse(JSON.stringify(expense)));
-      (state.expenses as any).push(newExpense);
-      LocalStorageUtil.setItem("expenses", JSON.stringify(state.expenses));
+    updateExpense: (state: any, value: { old: Expense; curr: Expense }) => {
+      const expenses = state.expenses as Expense[];
+      const index = expenses.findIndex((e) => e.equals(value.old));
+      if (index !== -1) {
+        expenses[index] = value.curr;
+        LocalStorageUtil.setItem("expenses", JSON.stringify(state.expenses));
+      }
     },
   },
   getters: {

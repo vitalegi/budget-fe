@@ -1,5 +1,5 @@
 <template>
-  <CreateOrUpdateExpense @change="createExpense" />
+  <CreateOrUpdateExpense :defaultValue="expense" @change="updateExpense" />
 </template>
 
 <script lang="ts">
@@ -11,13 +11,18 @@ import Expense from "@/expenses/models/Expense";
 export default Vue.extend({
   name: "CreateExpense",
   components: { CreateOrUpdateExpense },
-
+  props: {
+    expense: Expense,
+  },
   data: () => ({
     expenseService: new ExpenseService(),
   }),
   methods: {
-    createExpense(expense: Expense): void {
-      this.$store.commit("addExpense", expense);
+    updateExpense(newValue: Expense): void {
+      this.$store.commit("updateExpense", {
+        old: this.expense,
+        curr: newValue,
+      });
       this.$router.push("/");
     },
   },

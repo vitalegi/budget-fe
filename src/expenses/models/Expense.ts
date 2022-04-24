@@ -33,4 +33,8 @@ export default class Expense {
     }
     return true;
   }
+
+  public clone(): Expense {
+    return Expense.fromJson(JSON.parse(JSON.stringify(this)));
+  }
 }
