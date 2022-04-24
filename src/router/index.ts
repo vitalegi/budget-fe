@@ -1,14 +1,19 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
-import Home from "../views/Home.vue";
+import ExpensesView from "../views/ExpensesView.vue";
+import AddExpenseView from "../views/AddExpenseView.vue";
 
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
   {
     path: "/",
-    name: "Home",
-    component: Home,
+    name: "ExpensesView",
+    component: ExpensesView,
+  },{
+    path: "/add",
+    name: "AddExpenseView",
+    component: AddExpenseView,
   },
   {
     path: "/about",
