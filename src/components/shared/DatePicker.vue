@@ -31,10 +31,13 @@
 
 <script lang="ts">
 import Vue from "vue";
+import DateUtil from "@/utils/DateUtil";
 
 export default Vue.extend({
   name: "DatePicker",
-
+  props: {
+    value: String,
+  },
   data: () => ({
     date: "",
     tmpDate: "",
@@ -54,6 +57,11 @@ export default Vue.extend({
     changeTmpDate(value: string): void {
       this.tmpDate = value;
     },
+  },
+  mounted(): void {
+    if (this.value) {
+      this.date = this.value;
+    }
   },
 });
 </script>

@@ -2,16 +2,22 @@
   <v-container>
     <v-row class="text-center">
       <v-col cols="12">
-        <DatePicker @change="updateDate" />
+        <DatePicker :value="date" @change="updateDate" />
       </v-col>
       <v-col cols="12">
-        <v-select v-model="author" :items="authors" label="Author"></v-select>
+        <v-select
+          v-model="author"
+          :items="authors"
+          label="Author"
+          @change="changeAuthor"
+        ></v-select>
       </v-col>
       <v-col cols="12">
         <v-select
           v-model="category"
           :items="categories"
           label="Category"
+          @change="changeCategory"
         ></v-select>
       </v-col>
       <v-col cols="12">
@@ -50,16 +56,18 @@
 import Vue from "vue";
 import DatePicker from "@/components/shared/DatePicker.vue";
 import Expense from "@/expenses/models/Expense";
+import DateUtil from "@/utils/DateUtil";
+import LocalStorageUtil from "@/utils/LocalStorageUtil";
 
 export default Vue.extend({
   name: "CreateExpense",
   components: { DatePicker },
 
   data: () => ({
-    date: "",
-    author: "",
+    date: DateUtil.today(),
+    author: LocalStorageUtil.getItem("expenses.create.author", ""),
     authors: ["Giorgio", "Federica"],
-    category: "",
+    category: LocalStorageUtil.getItem("expenses.create.category", ""),
     categories: [
       "Affitto",
       "Spesa",
@@ -94,6 +102,12 @@ export default Vue.extend({
     },
   },
   methods: {
+    changeAuthor(author: string): void {
+      LocalStorageUtil.setItem("expenses.create.author", author);
+    },
+    changeCategory(category: string): void {
+      LocalStorageUtil.setItem("expenses.create.category", category);
+    },
     updateDate(date: string): void {
       this.date = date;
     },
@@ -105,6 +119,7 @@ export default Vue.extend({
       expense.amount = this.amount;
       expense.description = this.description;
       this.$store.commit("addExpense", expense);
+      this.$router.push("/");
     },
   },
 });
