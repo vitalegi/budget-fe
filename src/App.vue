@@ -49,9 +49,9 @@ export default Vue.extend({
       return expenses.map((expense) => this.formatExpense(expense)).join("\n");
     },
     formatExpense(expense: Expense): string {
-      return `${this.formatDate(expense.date)}\t${expense.amount}\t${
+      return `${this.formatDate(expense.date)}|${expense.amount}|${
         expense.category
-      }\t${expense.description}\t${expense.author}`;
+      }|${expense.description}|${expense.author}`;
     },
     formatDate(date: string): string {
       const values = date.split("-");
